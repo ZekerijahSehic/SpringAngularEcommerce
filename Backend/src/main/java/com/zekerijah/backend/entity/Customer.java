@@ -31,12 +31,11 @@ public class Customer {
     private Set<Order> orders = new HashSet<>();
 
     public void add(Order order){
-        if(orders != null){
+        if(order != null){
             if(orders == null) {
                 orders = new HashSet<>();
             }
         }
-
         orders.add(order);
         order.setCustomer(this);
     }

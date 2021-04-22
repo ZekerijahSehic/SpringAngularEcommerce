@@ -37,9 +37,9 @@ public class Order {
     @CreationTimestamp
     private Date dateCreated;
 
-    @Column(name = "last_update")
+    @Column(name = "last_updated")
     @UpdateTimestamp
-    private Date lastUpdate;
+    private Date lastUpdated;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
     private Set<OrderItem>  orderItems = new HashSet<>();
@@ -48,21 +48,22 @@ public class Order {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "shipping_address_id", referencedColumnName = "id")
     private Address shippingAddress;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "billing_address_id", referencedColumnName = "id")
     private Address billingAddress;
 
     public void add(OrderItem item) {
-        if (orderItems != null) {
-            orderItems = new HashSet<>();
+        if (item != null) {
+            if (orderItems == null) {
+                orderItems = new HashSet<>();
+            }
+            orderItems.add(item);
+            item.setOrder(this);
         }
-
-        orderItems.add(item);
-        item.setOrder(this);
     }
 
 
