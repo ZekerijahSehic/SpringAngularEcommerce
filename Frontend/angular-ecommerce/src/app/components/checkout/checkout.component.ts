@@ -45,23 +45,29 @@ export class CheckoutComponent implements OnInit {
 
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
-        firstName: new FormControl('', [Validators.required,
-                                                              Validators.minLength(2),
-                                                              FormsValidator.notOnlyWhiteSpace]),
-        lastName: new FormControl('', [Validators.required,
-                                                              Validators.minLength(3),
-                                                              FormsValidator.notOnlyWhiteSpace]),
+        firstName: new FormControl('', [Validators.required,  Validators.minLength(2),
+          FormsValidator.notOnlyWhiteSpace]),
 
-        email: new FormControl('',
-          [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]
+        lastName: new FormControl('', [Validators.required, Validators.minLength(3),
+          FormsValidator.notOnlyWhiteSpace]),
+
+        email: new FormControl('', [Validators.required,
+          Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]
         )
       }),
       shippingAddress: this.formBuilder.group({
-        country: [''],
-        street: [''],
-        city: [''],
-        state: [''],
-        zipCode: ['']
+        country: new FormControl('', [Validators.required]) ,
+
+        street: new FormControl('', [Validators.required, Validators.minLength(2),
+          FormsValidator.notOnlyWhiteSpace]) ,
+
+        city: new FormControl('', [Validators.required, Validators.minLength(2),
+          FormsValidator.notOnlyWhiteSpace]) ,
+
+        state: new FormControl('', [Validators.required]) ,
+
+        zipCode: new FormControl('', [Validators.required, Validators.minLength(2),
+          FormsValidator.notOnlyWhiteSpace])
       }),
       billingAddress: this.formBuilder.group({
         country: [''],
@@ -108,6 +114,12 @@ export class CheckoutComponent implements OnInit {
   get lastName() { return this.checkoutFormGroup.get('customer.lastName') }
   get email() { return this.checkoutFormGroup.get('customer.email') }
 
+  get shippingAddressCountry() { return this.checkoutFormGroup.get('shippingAddress.country')}
+  get shippingAddressStreet() { return this.checkoutFormGroup.get('shippingAddress.street')}
+  get shippingAddressCity() { return this.checkoutFormGroup.get('shippingAddress.city')}
+  get shippingAddressState() { return this.checkoutFormGroup.get('shippingAddress.state')}
+  get shippingAddresszipCode() { return this.checkoutFormGroup.get('shippingAddress.zipCode')}
+
   copyShippingToBillingAddress(event){
 
     if(event.target.checked){
@@ -127,7 +139,7 @@ export class CheckoutComponent implements OnInit {
 
     if(this.checkoutFormGroup.invalid){
       this.checkoutFormGroup.markAllAsTouched();
-      return
+      return;
     }
 
     let order = new Order();
@@ -164,7 +176,6 @@ export class CheckoutComponent implements OnInit {
         next: response => {
           alert(`Your order has been received.\n Order tracking number: ${response.orderTrackingNumber}`)
 
-          // reset cart
           this.resetCart();
         },
         error: err => {
