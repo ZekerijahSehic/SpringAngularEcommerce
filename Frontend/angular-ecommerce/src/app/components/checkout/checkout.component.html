@@ -169,6 +169,11 @@
                     {{ country.name }}
                   </option>
                 </select>
+                <div *ngIf="billingAddressCountry.invalid && (billingAddressCountry.dirty || billingAddressCountry.touched)" class="alert-danger danger mt-1" >
+                  <div *ngIf="billingAddressCountry.errors.required">
+                    Country is required
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -179,6 +184,14 @@
             <div class="col-md-9">
               <input formControlName="street" type="text">
             </div>
+            <div *ngIf="billingAddressStreet.invalid && (billingAddressStreet.touched || billingAddressStreet.dirty)"  class="alert-danger danger mt-1">
+              <div *ngIf="billingAddressStreet.errors.required || billingAddressStreet.errors.whiteSpaceError">
+                Country is required
+              </div>
+              <div *ngIf="billingAddressStreet.errors.minlength">
+                Minimal lengnth is 2 characters!
+              </div>
+            </div>
           </div>
           <div class="row">
             <div class="col-md-2">
@@ -186,6 +199,14 @@
             </div>
             <div class="col-md-9">
               <input formControlName="city" type="text">
+            </div>
+            <div *ngIf="billingAddressCity.invalid && (billingAddressCity.touched || billingAddressCity.dirty)"  class="alert-danger danger mt-1">
+              <div *ngIf="billingAddressCity.errors.required || billingAddressCity.errors.whiteSpaceError">
+                City is required
+              </div>
+              <div *ngIf="billingAddressCity.errors.minlength">
+                Minimal length is 2 characters!
+              </div>
             </div>
           </div>
           <div class="row">
@@ -199,6 +220,14 @@
                     {{ state.name }}
                   </option>
                 </select>
+                <div *ngIf="billingAddressState.invalid && (billingAddressState.dirty || billingAddressState.touched)" class="alert-danger danger mt-1">
+                  <div *ngIf="billingAddressState.errors.required || billingAddressState.errors.whiteSpaceError">
+                    State is required
+                  </div>
+                  <div *ngIf="billingAddressState.errors.minlength">
+                    Minimal length is 2 characters!
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -208,6 +237,11 @@
             </div>
             <div class="col-md-9">
               <input formControlName="zipCode" type="text">
+            </div>
+            <div *ngIf="billingAddresszipCode.invalid && (billingAddresszipCode.touched || billingAddresszipCode.dirty)" class="alert-danger danger mt-1">
+              <div *ngIf="billingAddresszipCode.errors.required || billingAddresszipCode.errors.whiteSpaceError">
+                Zip code is required
+              </div>
             </div>
           </div>
         </div>
